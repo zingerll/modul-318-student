@@ -13,13 +13,28 @@ namespace OpenTT
 {
     public partial class StationSelection : Form
     {
+        public const int NumberOfStations = 4;
+
+        bool _error = false;
         public Station SelectedStation
         {
             get;
             private set;
         }
 
-        public const int NumberOfStations = 4;
+        public bool Error
+        {
+            get
+            {
+                return _error;
+            }
+
+            set
+            {
+                _error = value;
+            }
+        }
+
         BindingList<Station> stationList = new BindingList<Station>();
         public StationSelection()
         {
@@ -28,15 +43,24 @@ namespace OpenTT
         public StationSelection(string stationToFind)
         {
             InitializeComponent();
-            searchStation(stationToFind);
-            libStationList.DataSource = stationList;
-            libStationList.DisplayMember = "Name";
+            if (searchStation(stationToFind))
+            {
+                libStationList.DataSource = stationList;
+                libStationList.DisplayMember = "Name";
+                SelectedStation = stationList[0];
+            }
+            else
+            {
+                _error = true;
+            }
         }
 
-        private void searchStation(string stationToFind)
+        private bool searchStation(string stationToFind)
         {
             Transport qry = new Transport();
             genBindinglist(qry.GetStations(stationToFind));
+            return (stationList.Count > 1);
+
         }
 
         private void genBindinglist(Stations stations)
@@ -57,6 +81,10 @@ namespace OpenTT
         private void libStationList_SelectedIndexChanged(object sender, EventArgs e)
         {
             btnSelectStation.Enabled = true;
+        }
+
+        private void StationSelection_FormClosing(object sender, FormClosingEventArgs e)
+        {
         }
     }
 }

@@ -39,5 +39,10 @@ namespace SwissTransport
         public string Platform { get; set; }
 
         public string RealtimeAvailability { get; set; }
+
+        public override string ToString()
+        {
+            return Station.Name;
+        }
     }
 }

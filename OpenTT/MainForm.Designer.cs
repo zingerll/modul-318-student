@@ -34,9 +34,9 @@
             this.txtTo = new System.Windows.Forms.TextBox();
             this.btnSearchFrom = new System.Windows.Forms.Button();
             this.btnSearchTo = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgfTimeTable = new System.Windows.Forms.DataGridView();
             this.btnSearchConnections = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgfTimeTable)).BeginInit();
             this.SuspendLayout();
             // 
             // lblFrom
@@ -97,31 +97,36 @@
             this.btnSearchTo.UseVisualStyleBackColor = true;
             this.btnSearchTo.Click += new System.EventHandler(this.btnSearchTo_Click);
             // 
-            // dataGridView1
+            // dgfTimeTable
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(15, 43);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(653, 150);
-            this.dataGridView1.TabIndex = 6;
+            this.dgfTimeTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgfTimeTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgfTimeTable.Location = new System.Drawing.Point(12, 66);
+            this.dgfTimeTable.Name = "dgfTimeTable";
+            this.dgfTimeTable.Size = new System.Drawing.Size(665, 183);
+            this.dgfTimeTable.TabIndex = 6;
             // 
             // btnSearchConnections
             // 
+            this.btnSearchConnections.Enabled = false;
             this.btnSearchConnections.Location = new System.Drawing.Point(545, 3);
             this.btnSearchConnections.Name = "btnSearchConnections";
             this.btnSearchConnections.Size = new System.Drawing.Size(123, 23);
             this.btnSearchConnections.TabIndex = 7;
-            this.btnSearchConnections.Text = "Verbindungen Suchen";
+            this.btnSearchConnections.Text = "Verbindungen &Suchen";
             this.btnSearchConnections.UseVisualStyleBackColor = true;
             this.btnSearchConnections.Click += new System.EventHandler(this.btnSearchConnections_Click);
             // 
             // MainForm
             // 
+            this.AcceptButton = this.btnSearchConnections;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(774, 261);
+            this.ClientSize = new System.Drawing.Size(692, 261);
             this.Controls.Add(this.btnSearchConnections);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgfTimeTable);
             this.Controls.Add(this.btnSearchTo);
             this.Controls.Add(this.btnSearchFrom);
             this.Controls.Add(this.txtTo);
@@ -130,7 +135,7 @@
             this.Controls.Add(this.lblFrom);
             this.Name = "MainForm";
             this.Text = "OpenTT";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgfTimeTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -144,7 +149,7 @@
         private System.Windows.Forms.TextBox txtTo;
         private System.Windows.Forms.Button btnSearchFrom;
         private System.Windows.Forms.Button btnSearchTo;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgfTimeTable;
         private System.Windows.Forms.Button btnSearchConnections;
     }
 }

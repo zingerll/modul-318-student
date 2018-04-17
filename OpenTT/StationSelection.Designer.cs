@@ -61,6 +61,7 @@
             this.Controls.Add(this.libStationList);
             this.Name = "StationSelection";
             this.Text = "Auswahl der Haltestelle";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StationSelection_FormClosing);
             this.ResumeLayout(false);
 
         }
