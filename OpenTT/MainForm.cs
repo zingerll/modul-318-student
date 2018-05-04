@@ -15,6 +15,8 @@ namespace OpenTT
     public partial class MainForm : Form
     {
         BindingList<Connection> connectionList = new BindingList<Connection>();
+        BindingList<StationBoard> StationBoardList = new BindingList<StationBoard>();
+        
 
         public MainForm()
         {
@@ -27,17 +29,18 @@ namespace OpenTT
         private void getTimetable(string from, string to)
         {
             Transport qry = new Transport();
-            genBindinglist(qry.GetConnections(from, to));
-        }
-        private void genBindinglist(Connections connections)
-        {
-            connectionList.Clear();
-            foreach (Connection connection in connections.ConnectionList)
-            {
-                connectionList.Add(connection);
-            }
+            connectionList = new BindingList<Connection>(qry.GetConnections(from, to).ConnectionList);
+            dgfTimeTable.DataSource = connectionList;
         }
 
+        private void getStationBoard(string station)
+        {
+            Transport qry = new Transport();
+            StationBoardList = new BindingList<StationBoard>(qry.GetStationBoard(station, "0").Entries);
+            dgfTimeTable.DataSource = StationBoardList;
+        }
+
+       
         private string searchStation(string stationToFind)
         {
             StationSelection selectForm;
@@ -74,24 +77,66 @@ namespace OpenTT
 
         private void txtFrom_TextChanged(object sender, EventArgs e)
         {
-            btnSearchFrom.Enabled = (!string.IsNullOrEmpty(txtFrom.Text));
-            btnSearchConnections.Enabled = (!string.IsNullOrWhiteSpace(txtFrom.Text) &&
-                                            !string.IsNullOrWhiteSpace(txtTo.Text));
+            btnSearchFrom.Enabled = (!string.IsNullOrWhiteSpace(txtFrom.Text));
+            enableSearchConnection();
         }
 
         private void txtTo_TextChanged(object sender, EventArgs e)
         {
-            btnSearchTo.Enabled = (!string.IsNullOrEmpty(txtTo.Text));
-            btnSearchConnections.Enabled = (!string.IsNullOrWhiteSpace(txtFrom.Text) &&
-                                            !string.IsNullOrWhiteSpace(txtTo.Text));
+            btnSearchTo.Enabled = (!string.IsNullOrWhiteSpace(txtTo.Text));
+            enableSearchConnection();
+        }
+
+        private void enableSearchConnection()
+        {
+            if (rbConnections.Checked)
+            {
+                btnSearchConnections.Enabled = (!string.IsNullOrWhiteSpace(txtFrom.Text) &&
+                                                    !string.IsNullOrWhiteSpace(txtTo.Text));
+            }
         }
 
         #endregion
 
         private void btnSearchConnections_Click(object sender, EventArgs e)
         {
-            getTimetable(txtFrom.Text, txtTo.Text);
+            if (rbConnections.Checked)
+                getTimetable(txtFrom.Text, txtTo.Text);
+            else
+                getStationBoard(txtFrom.Text);
         }
 
+        private void rbStationBoard_Click(object sender, EventArgs e)
+        {
+            txtTo.Enabled = false;
+            btnSearchTo.Enabled = false;
+            lblFrom.Text = "Station";
+            btnSearchConnections.Enabled = true;
+        }
+
+        private void rbConnections_Click(object sender, EventArgs e)
+        {
+            txtTo.Enabled = true;
+            btnSearchTo.Enabled = (!string.IsNullOrWhiteSpace(txtTo.Text));
+            lblFrom.Text = "Von";
+            btnSearchConnections.Enabled = (!string.IsNullOrWhiteSpace(txtTo.Text));
+        }
+
+        private void txtFrom_Enter(object sender, EventArgs e)
+        {
+            AcceptButton = btnSearchFrom;
+        }
+
+        private void txtFrom_Leave(object sender, EventArgs e)
+        {
+            AcceptButton = btnSearchConnections;
+        }
+
+        private void dgfTimeTable_DataSourceChanged(object sender, EventArgs e)
+        {
+            dgfTimeTable.Columns[0].Width = 150;
+            dgfTimeTable.Columns[1].Width = 150;
+            dgfTimeTable.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
     }
 }
